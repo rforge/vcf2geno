@@ -1,0 +1,18 @@
+Package: vcf2geno
+Type: Package
+Title: Efficiently Read Variant Call Format (VCF) into R
+Version: 1.1
+Date: 2012-08-26
+Author: Xiaowei Zhan <zhanxw@gmail.com>, Dajiang Liu <dajiang.liu@gmail.com>
+Maintainer: Xiaowei Zhan <zhanxw@gmail.com>
+Description: A handy package to read VCF file
+  Zlib * (http://zlib.net/zlib_license.html)
+  Bzip2 *  (BSD)
+  PCRE (BSD)
+  Tabix (MIT)
+  Minor changes to Zlib and Bzip2
+
+License: MIT
+URL: http://zhanxw.com/
+Collate: 'vcf2geno.R'
+Packaged: 2012-08-26 01:15:17 UTC; zhanxw

@@ -1,0 +1,1 @@
+PKG_LIBS= -lz -lbz2 -lm -lpcre -lpcreposix
