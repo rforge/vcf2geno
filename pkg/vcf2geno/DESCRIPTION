@@ -14,4 +14,4 @@ Description: A handy package to read VCF file
 License: MIT
 URL: http://zhanxw.com/
 Collate: 'vcf2geno.R'
-Packaged: 2012-08-26 01:15:17 UTC; zhanxw
+Packaged: 2012-08-27 03:24:32 UTC; zhanxw

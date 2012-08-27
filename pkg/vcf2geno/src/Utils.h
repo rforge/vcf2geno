@@ -31,7 +31,7 @@ inline std::string chopChr(const std::string& s) {
     return s.substr(3);
   }
   return s;
-};
+}
 
 // @return true: if @param s has leading "chr", "CHR", "Chr"...
 inline bool hasLeadingChr(const std::string& s) {
@@ -42,7 +42,7 @@ inline bool hasLeadingChr(const std::string& s) {
     return true;
   }
   return false;
-};
+}
 
 // remove the leading and trailing white spaces
 inline std::string stringStrip(const std::string& s){
@@ -77,15 +77,15 @@ inline int stringTokenize(const std::string& str, const std::string& delim, std:
       s.push_back(str[i]);
     }
     ++i;
-  };
+  }
   result->push_back(s);
   return result->size();
-};
+}
 
 inline int stringTokenize(const std::string& str, const char delim, std::vector<std::string>* result){
   std::string d(1, delim);
   return (stringTokenize(str, d, result));
-};
+}
 
 // pretty much like stringTokenize, but @param result will not contain empty string
 inline int stringNaturalTokenize(const std::string& str, const std::string& delim, std::vector<std::string>* result){
@@ -109,15 +109,15 @@ inline int stringNaturalTokenize(const std::string& str, const std::string& deli
       s.push_back(str[i]);
     }
     ++i;
-  };
+  }
   if (s.size() > 0)
     result->push_back(s);
   return result->size();
-};
+}
 inline int stringNaturalTokenize(const std::string& str, const char delim, std::vector<std::string>* result){
   std::string d(1, delim);
   return (stringNaturalTokenize(str, d, result));
-};
+}
 
 inline void stringJoin(const std::vector<std::string>& array, const char delim, std::string* res){
   res->clear();
@@ -125,20 +125,20 @@ inline void stringJoin(const std::vector<std::string>& array, const char delim, 
     (*res) += array[i];
     if (i) (*res) += delim;
   }
-};
+}
 
 inline void tolower(std::string* s) {
   for (std::string::iterator i = s->begin();
        i != s->end();
        ++i)
     (*i) = tolower(*i);
-};
+}
 
 inline std::string tolower(const std::string& s) {
   std::string ret(s);
   tolower(&ret);
   return ret;
-};
+}
 
 
 /**
@@ -148,7 +148,7 @@ inline void dumpStringVector(const std::vector<std::string> s) {
   for (unsigned int i = 0; i < s.size(); i++) {
     fprintf(stdout, "%u: %s\n", i, s[i].c_str());
   }
-};
+}
 
 
 #endif /* _UTILS_H_ */

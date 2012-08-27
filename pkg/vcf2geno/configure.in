@@ -15,6 +15,7 @@ AC_PROG_CC
 AC_LANG(C++)
 AC_PROG_CXX
 
+LIB_BZIP2=""
 AC_CHECK_LIB([bz2], [BZ2_bzDecompressInit], [
   AC_CHECK_HEADER([bzlib.h], [
     HAS_BZIP2=1
@@ -23,16 +24,16 @@ AC_CHECK_LIB([bz2], [BZ2_bzDecompressInit], [
   ]) 
 ])
 
+LIB_PCRE=""
 AC_CHECK_LIB([pcre], [regcomp], [
   AC_CHECK_HEADER([pcreposix.h], [
     HAS_PCRE=1
     AC_DEFINE([HAS_PCREPOSIX], [1], [Define to 1 if you have PCRE library])
+    LIB_PCRE="-lpcre -lpcreposix"
   ])
 ])
 
-LIB_BZIP2=""
 AC_SUBST(LIB_BZIP2)
-LIB_PCRE=""
 AC_SUBST(LIB_PCRE)
 
 AC_CONFIG_FILES([src/Makevars])

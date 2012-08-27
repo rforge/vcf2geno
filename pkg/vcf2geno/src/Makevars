@@ -1,6 +1,6 @@
-PKG_CFLAGS=-I. -g -O2 -DNDEBUG 
-PKG_CXXFLAGS= -I. -g -O2 -DNDEBUG
-PKG_LIBS= -lz -lm -lbz2 
+PKG_CFLAGS=-I. -O3 -pipe -g -DNDEBUG 
+PKG_CXXFLAGS= -I. -O3 -pipe -g -DNDEBUG
+PKG_LIBS= -lz -lm -lbz2 -lpcre -lpcreposix
 
 ##-lbz2 -lpcre -lpcreposix
 

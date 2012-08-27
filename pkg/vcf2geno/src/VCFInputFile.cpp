@@ -11,7 +11,7 @@ void VCFInputFile::rewriteVCFHeader() {
     s += people[i]->getName();
   }
   this->header[this->header.size()-1] = s;
-};
+}
 
 void VCFInputFile::setRangeMode() {
   if (!this->hasIndex){
@@ -23,7 +23,7 @@ void VCFInputFile::setRangeMode() {
   this->rangeEnd = this->range.end();
   this->rangeIterator = this->range.begin();
   
-};
+}
 void VCFInputFile::clearRange() {
 #ifndef NDEBUG
   if (this->range.size()) {
@@ -32,7 +32,7 @@ void VCFInputFile::clearRange() {
 #endif
   this->range.clear();
   this->ti_line = 0;
-};
+}
 
 int VCFInputFile::updateId(const char* fn){
   // load conversion table

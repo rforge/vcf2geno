@@ -20,7 +20,7 @@ int SimpleMatrix::readFile(const char* f){
         this->mat.push_back(d);
     };
     return 0;
-};
+}
 
 int SimpleMatrix::writeFile(const char* f){
     FileWriter fw(f);
@@ -33,4 +33,4 @@ int SimpleMatrix::writeFile(const char* f){
         fw.write("\n");
     }
     return 0;
-};
+}

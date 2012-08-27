@@ -33,7 +33,7 @@ void loadGeneFile(const std::string& geneFile, const std::string& geneName, std:
       }
     };
   }
-};
+}
 
 /**
  * Read from @param vin and return a matrix of marker by people
@@ -115,7 +115,7 @@ SEXP readVCF2Matrix(VCFExtractor* vin) {
   UNPROTECT(5);
   return(ans);
 
-};
+}
 
 
 /**
@@ -148,7 +148,7 @@ SEXP impl_readVCFToMatrixByRange(SEXP arg_fileName, SEXP arg_range, SEXP arg_ann
 
   // real working part
   return readVCF2Matrix(&vin);
-};
+}
 
 /**
  * @param arg_fileName: a string character
@@ -434,7 +434,7 @@ SEXP readVCF2List(VCFInputFile* vin,
   // Rprintf("Unprotected: %d\n", (retListLen + 1));
   return(ret);
 
-};
+}
 
 /**
  * @param arg_fileName: a string character
@@ -470,7 +470,7 @@ SEXP impl_readVCFToListByRange(SEXP arg_fileName, SEXP arg_range, SEXP arg_annoT
   }
 
   return readVCF2List(&vin, FLAG_vcfColumn, FLAG_infoTag, FLAG_indvTag);
-};
+}
 
 /**
  * @param arg_fileName: a string character
@@ -548,7 +548,7 @@ void set2string(const std::set<std::string>& in,
     };
     out->append(*iter);
   };
-};
+}
 
 #define PVAL_FILE_CHROM_COL 0
 #define PVAL_FILE_POS_COL 1
@@ -931,7 +931,7 @@ SEXP impl_rvMetaReadData(SEXP arg_pvalFile, SEXP arg_covFile, SEXP arg_gene) {
   Rprintf("Finished calculation.\n");
   UNPROTECT(numAllocated);
   return ret;
-}; // SEXP rvMetaRead2List(SEXP arg_pvalFile, SEXP arg_covFile) {
+} // SEXP rvMetaRead2List(SEXP arg_pvalFile, SEXP arg_covFile) {
 
 /**
  * @return a covariance matrix
@@ -1118,7 +1118,7 @@ int parsePosition(const std::string& range,
   *beg = atoi(r.substr(i+1, j - i - 1));
   *end = atoi(r.substr(j+1, r.size() - j));
   return 0;
-};
+}
 /**
  * @param arg_scoreFile: single variant score test file
  * @return a data frame of

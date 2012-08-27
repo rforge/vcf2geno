@@ -62,7 +62,7 @@ int storeResult(const std::vector<std::string>& in , SEXP ret, int idx) {
   }
   SET_VECTOR_ELT(ret, idx, s);
   return 1;
-};
+}
 
 int storeResult(const std::vector<int>& in , SEXP& ret, int idx) {
   SEXP s; // = VECTOR_ELT(ret, i);
@@ -73,7 +73,7 @@ int storeResult(const std::vector<int>& in , SEXP& ret, int idx) {
   }
   SET_VECTOR_ELT(ret, idx, s);
   return 1;
-};
+}
 
 int storeResult(const std::vector<double>& in , SEXP& ret, int idx) {
   SEXP s; // = VECTOR_ELT(ret, i);
@@ -84,7 +84,7 @@ int storeResult(const std::vector<double>& in , SEXP& ret, int idx) {
   }
   SET_VECTOR_ELT(ret, idx, s);
   return 1;
-};
+}
 
 int storeResult(const std::string& key, const std::vector<std::string>& val , SEXP ret, int idx) {
   SEXP s; // = VECTOR_ELT(ret, i);
@@ -95,7 +95,7 @@ int storeResult(const std::string& key, const std::vector<std::string>& val , SE
   }
   SET_VECTOR_ELT(ret, idx, s);
   return 1;
-};
+}
 
 int storeResult(const std::string& key, const std::vector<int>& val , SEXP& ret, int idx) {
   SEXP s; // = VECTOR_ELT(ret, i);
@@ -106,7 +106,7 @@ int storeResult(const std::string& key, const std::vector<int>& val , SEXP& ret,
   }
   SET_VECTOR_ELT(ret, idx, s);
   return 1;
-};
+}
 
 int setDim(int nrow, int ncol, SEXP* s){
   SEXP dim;
@@ -114,7 +114,7 @@ int setDim(int nrow, int ncol, SEXP* s){
   INTEGER(dim)[0] = nrow; INTEGER(dim)[1] = ncol;
   setAttrib( (*s), R_DimSymbol, dim);
   return 1;
-};
+}
 /**
  * Set dim attributes for ret[idx]
  */
@@ -123,26 +123,26 @@ int setDim(int nrow, int ncol, SEXP ret, int idx){
   setDim(nrow, ncol, &s);
   SET_VECTOR_ELT(ret, idx, s);
   return 1;
-};
+}
 
 int createList(int n, SEXP* s){
   PROTECT( (*s) = allocVector(VECSXP, n));
   return 1;
-};
+}
 
 int createStringArray(int n, SEXP* s){
   PROTECT( (*s) = allocVector(STRSXP, n));
   return 1;
-};
+}
 
 int createDoubleArray(int n, SEXP* s){
   PROTECT( (*s) = allocVector(REALSXP, n));
   return 1;
-};
+}
 int createIntArray(int n, SEXP* s) {
   PROTECT( (*s) = allocVector(INTSXP, n));
   return 1;
-};
+}
 
 int setListNames(std::vector<std::string>& names, SEXP* s) {
   SEXP sListNames;
@@ -152,26 +152,26 @@ int setListNames(std::vector<std::string>& names, SEXP* s) {
   }
   setAttrib((*s), R_NamesSymbol, sListNames);
   return 1;
-};
+}
 
 void initDoubleArray(SEXP s) {
   double* r = REAL(s);
   for (int i = 0; i < length(s); i++) {
     r[i] = NA_REAL;
   }
-};
+}
 
 void initIntArray(SEXP s) {
   int* r = INTEGER(s);
   for (int i = 0; i < length(s); i++) {
     r[i] = NA_INTEGER;
   }
-};
+}
 
 void initStringArray(SEXP s){
   for (int i = 0; i < length(s); i++) {
     SET_STRING_ELT(s, i, NA_STRING);
   }
-};
+}
 
 #endif /* _R_CPP_INTERFACE_H_ */

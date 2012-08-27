@@ -75,7 +75,7 @@ inline int atoi(const std::string& s) {
         return 0;
     }
     return result;
-};
+}
 
 inline double atof(const std::string& s) {
     double result;
@@ -84,7 +84,7 @@ inline double atof(const std::string& s) {
         return 0.0;
     }
     return result;
-};
+}
 
 /**
  * convert @param chrom to integer for easier comparisons

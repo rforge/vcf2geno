@@ -1,5 +1,6 @@
-PKG_CFLAGS=-I. -g -O2 -DNDEBUG 
-PKG_CXXFLAGS= -I. -g -O2 -DNDEBUG
+# For windows, we can specify "-I.", otherwise, unistd.h will include our IO.h but not io.h from MingW system
+#PKG_CFLAGS=-I. -g -O2 -DNDEBUG 
+#PKG_CXXFLAGS= -I. -g -O2 -DNDEBUG
 ## For windows, we don't support PCRE
 ## PKG_LIBS= -lz -lm -lbz2 
 

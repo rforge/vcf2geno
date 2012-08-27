@@ -20,6 +20,7 @@ int PlinkInputFile::readIntoMatrix(SimpleMatrix* mat) {
                 if (offset == 0) {
                     int ret = fread(&c, sizeof(unsigned char), 1, fpBed);
                     // assert (ret == 1);
+                    UNUSED(ret);
                 }
                 unsigned char geno = (c  >> (offset << 1)) & mask;
                 switch (geno){
@@ -54,6 +55,7 @@ int PlinkInputFile::readIntoMatrix(SimpleMatrix* mat) {
                 if (offset == 0) {
                     int ret = fread(&c, sizeof(unsigned char), 1, fpBed);
                     ////assert( ret == 1);
+                    UNUSED(ret);
                 }
                 unsigned char geno = (c & mask[offset]) >> (offset << 1);
                 switch (geno){
@@ -72,12 +74,12 @@ int PlinkInputFile::readIntoMatrix(SimpleMatrix* mat) {
                     default:
                         REPORT("Read PLINK genotype error!\n");
                         break;
-                };
+                }
             }
         }
     }
     return this->getNumMarker() * this->getNumIndv();
-};
+}
 
 int PlinkInputFile::readIntoMatrix(SimpleMatrix* mat, std::vector<std::string>* peopleNames, std::vector<std::string>* markerNames) {
   // assert (mat);
@@ -130,7 +132,8 @@ int PlinkInputFile::readIntoMatrix(SimpleMatrix* mat, std::vector<std::string>* 
                 int offset = peopleIdx[p] % 4;
                 unsigned char c;
                 fseek(this->fpBed, pos, SEEK_SET);
-                fread(&c, sizeof(unsigned char), 1, fpBed);
+                int ret = fread(&c, sizeof(unsigned char), 1, fpBed);
+                UNUSED(ret);
                 unsigned char geno = (c & mask[offset]) >> (offset << 1);
                 switch (geno){
                     case HOM_REF:
@@ -159,8 +162,9 @@ int PlinkInputFile::readIntoMatrix(SimpleMatrix* mat, std::vector<std::string>* 
                 int offset = markerIdx[m] % 4;
                 unsigned char c;
                 fseek(this->fpBed, pos, SEEK_SET);
-                fread(&c, sizeof(unsigned char), 1, fpBed);
-
+                int ret = fread(&c, sizeof(unsigned char), 1, fpBed);
+                UNUSED(ret);
+                
                 unsigned char geno = (c & mask[offset]) >> (offset << 1);
                 switch (geno){
                     case HOM_REF:
@@ -183,4 +187,4 @@ int PlinkInputFile::readIntoMatrix(SimpleMatrix* mat, std::vector<std::string>* 
         }
     }
     return this->getNumMarker() * this->getNumIndv();    
-};
+}

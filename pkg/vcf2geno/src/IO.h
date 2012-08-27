@@ -10,7 +10,11 @@
 #include <string>
 #include <vector>
 
+// Windows platform does not have good autoconf tools, so skip loading config.h
+#ifndef _WIN32
 #include "config.h"
+#endif
+
 // cannot forward declare an typdef anonymous struct
 // http://stackoverflow.com/questions/804894/forward-declaration-of-a-typedef-in-c
 // so include the header file

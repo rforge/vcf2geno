@@ -19,4 +19,4 @@ const VCFValue& VCFInfo::getTag(const char* tag, bool* isMissing){
     *isMissing = false;
     return this->data[s];
   };
-};
+}

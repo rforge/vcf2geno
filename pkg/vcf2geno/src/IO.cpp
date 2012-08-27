@@ -32,7 +32,7 @@ void AbstractFileReader::close(AbstractFileReader** f) {
     (*f)->close();
     delete (*f);
     *f = NULL;
-};
+}
 
 // check header for known file type
 AbstractFileReader::FileType AbstractFileReader::checkFileType(const char* fileName){
@@ -67,13 +67,13 @@ AbstractFileReader::FileType AbstractFileReader::checkFileType(const char* fileN
     /*     return PLAIN; */
     /* }  */
     /* return UNKNOWN; */
-};
+}
 
 AbstractFileWriter::~AbstractFileWriter() {
 #ifdef IO_DEBUG
     REprintf("AbstractFileWriter desc()\n");
 #endif
-};
+}
 
 
 int BGZipFileWriter::open(const char* fn, bool append){
@@ -91,13 +91,13 @@ void BGZipFileWriter::close(){
         bgzf_close(this->fp);
         this->fp = NULL;
     }
-};
+}
 int BGZipFileWriter::write(const char* s) {
         return bgzf_write(this->fp, s, strlen(s));
-    };
+}
 int BGZipFileWriter::writeLine(const char* s) {
     int ret = bgzf_write(this->fp, s, strlen(s));
     ret += bgzf_write(this->fp, "\n", 1);
         return (ret);
-};
+}
 

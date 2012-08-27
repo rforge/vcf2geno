@@ -75,6 +75,13 @@ typedef
 #include <stdio.h>
 #endif
 
+// http://tolstoy.newcastle.edu.au/R/e2/devel/06/11/1242.html
+#ifdef _WIN32
+#undef Realloc
+#define R_Realloc(p,n,t) (t *) R_chk_realloc( (void *)(p), (size_t)((n) * sizeof(t)) )
+#endif
+
+
 #ifdef _WIN32
 #   include <windows.h>
 #   ifdef small

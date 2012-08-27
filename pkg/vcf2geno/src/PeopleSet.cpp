@@ -16,7 +16,7 @@ void PeopleSet::readID(const std::vector<std::string> peopleVec){
     for (unsigned int i = 0; i < peopleVec.size(); i++ ){
         this->people.insert(peopleVec[i]);        
     }
-};
+}
 
 void PeopleSet::readIDfromFile(const char* fileName) {
     if (!strlen(fileName)) return;

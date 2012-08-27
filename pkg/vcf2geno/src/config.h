@@ -5,7 +5,7 @@
 #define HAS_BZIP2 1
 
 /* Define to 1 if you have PCRE library */
-/* #undef HAS_PCREPOSIX */
+#define HAS_PCREPOSIX 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1

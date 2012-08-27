@@ -38,7 +38,7 @@ inline bool PositionPairCompare(const PositionPair& p1, const PositionPair& p2){
   if (p1.begin != p2.begin)
     return (p1.begin < p2.begin);
   return (p1.end < p2.end);
-};
+}
 
 /**
  * Store arbitrary number of ranges: e.g. [chr1:1-100, chr2:2-300....]
