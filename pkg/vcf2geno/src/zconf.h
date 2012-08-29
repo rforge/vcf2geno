@@ -413,6 +413,7 @@ typedef uLong FAR uLongf;
 
 #ifdef HAVE_UNISTD_H    /* may be set to #if 1 by ./configure */
 #  define Z_HAVE_UNISTD_H
+#  include <unistd.h>   /* explicitly include unistd.h -- zhanxw */
 #endif
 
 #ifdef HAVE_STDARG_H    /* may be set to #if 1 by ./configure */

@@ -33,6 +33,9 @@
 
 #include "zconf.h"
 
+// try include <unistd.h>
+#include <unistd.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif

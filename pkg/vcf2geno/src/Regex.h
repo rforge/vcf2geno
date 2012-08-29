@@ -5,13 +5,24 @@
 
 #include <string>
 
-#ifdef HAS_PCREPOSIX
+// for some strange reason
+// MacOSX gcc 4.2 will messes up pcreposix.h and regex.h
+// You will notice REG_NOMATCH has different definitions.
+// Then the compile program will crash by a consecutive run of regexec()
+#ifdef __APPLE__
+#undef HAS_PCREPOSIX
+#endif
+#ifdef __MACH__
+#undef HAS_PCREPOSIX
+#endif
 
+#ifdef HAS_PCREPOSIX
 // We use PCRE here, use 'man pcreposix' for more information
 // accordig to http://lh3lh3.users.sourceforge.net/reb.shtml
 // PCRE-posix is fast
+//#include <regex.h>
 #include <pcreposix.h>
-#include "R.h"
+#include <R.h>
 
 class Regex {
 public:
@@ -19,6 +30,7 @@ public:
      * read pattern like "=Synonymous,=Indel"
      */
     int readPattern(const char* argRegex) {
+        // REprintf("pattern = %s\n", argRegex);
         if (this->initialized){
             regfree(&this->pattern);
             this->initialized = false;
@@ -27,10 +39,11 @@ public:
         int ret = regcomp(& this->pattern, argRegex, 0);
         if (ret) {
             regerror(ret, & this->pattern, error_buf, ERROR_BUF_LEN);
-            REprintf("%s\n", error_buf);
+            // REprintf("[ERROR] %s\n", error_buf);
             // fputs(error_buf, stderr);
             return -1;
         }
+        Rprintf("Regcomp OK\n");
         this->initialized = true;
         return 0;
     };
@@ -41,22 +54,24 @@ public:
      * @return true if matches.
      */
     bool match(const char* text) {
-        if (!this->initialized) {
-            REprintf("Uninitialized regex!\n");
-            return false;
-        }
+/*         REprintf("To match: %s\n", text); */
+/*         if (!this->initialized) { */
+/*             REprintf("Uninitialized regex!\n"); */
+/*             return false; */
+/*         } */
         if (text[0] == '\0') 
             return false;
         int ret = regexec(&this->pattern, text, 1, &this->matchResult, 0);
+/*         Rprintf("ret = %d, REG_NOMATCH = %d\n", ret, REG_NOMATCH); */
         if (ret == 0) {
-            /* printf("Match: %s\n", text); */
+/*             REprintf("Match: %s\n", text); */
             return true;
         } else if (ret == REG_NOMATCH){
-            // printf("Nomatch: %s\n", text);
+/*             REprintf("Nomatch: %s\n", text); */
             return false;
         } else {
             regerror(ret, & this->pattern, error_buf, ERROR_BUF_LEN);
-            REprintf("%s\n", error_buf);
+            REprintf("[ERROR] %s\n", error_buf);
             //fputs(error_buf, stderr);
             return false;
         }
@@ -69,10 +84,16 @@ public:
      * @param end: exclusive
      */
     bool match(const char* text, int begin, int end) {
+/*         for (int i = begin; i < end; ++i) { */
+/*             REprintf("%c", text[i]); */
+/*         } */
+/*         REprintf("\n"); */
+/*         Rprintf("match [ %d - %d ] %s\n", begin, end, text); */
         if (!this->initialized) {
             REprintf("Uninitialized regex!\n");
             return false;
         }
+
         if (begin == end){
             //empty string
             return false;
@@ -91,11 +112,11 @@ public:
                 return false;
             }
         } else if (ret == REG_NOMATCH){
-            //printf("Nomatch: %s\n", text);
+/*             REprintf("Nomatch: %s\n", text); */
             return false;
         } else {
             regerror(ret, & this->pattern, error_buf, ERROR_BUF_LEN);
-            REprintf("%s\n", error_buf);
+/*             REprintf("[ERROR] %s\n", error_buf); */
             //fputs(error_buf, stderr);
             return false;
         }

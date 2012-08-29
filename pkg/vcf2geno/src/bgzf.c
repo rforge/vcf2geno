@@ -35,6 +35,10 @@
 #include <sys/stat.h>
 #include "bgzf.h"
 
+// don't include R.h, or this file cannot compile
+
+#define UNUSED(x) ((void)(x))
+
 #include "khash.h"
 typedef struct {
 	int size;
@@ -355,7 +359,7 @@ deflate_block(BGZF* fp, int block_length)
             return -1;
         }
         memcpy(fp->uncompressed_block,
-               fp->uncompressed_block + input_length,
+               (char*)fp->uncompressed_block + input_length,
                remaining);
     }
     fp->block_offset = remaining;
@@ -372,7 +376,7 @@ inflate_block(BGZF* fp, int block_length)
 	int status;
     zs.zalloc = NULL;
     zs.zfree = NULL;
-    zs.next_in = fp->compressed_block + 18;
+    zs.next_in = (void*) ((char*)fp->compressed_block + 18);
     zs.avail_in = block_length - 16;
     zs.next_out = fp->uncompressed_block;
     zs.avail_out = fp->uncompressed_block_size;
@@ -678,7 +682,8 @@ int bgzf_check_EOF(BGZF *fp)
 #else
 	offset = ftello(fp->file);
 	if (fseeko(fp->file, -28, SEEK_END) != 0) return -1;
-	fread(buf, 1, 28, fp->file);
+	int ret = fread(buf, 1, 28, fp->file);
+    UNUSED(ret);
 	fseeko(fp->file, offset, SEEK_SET);
 #endif
 	return (memcmp(magic, buf, 28) == 0)? 1 : 0;

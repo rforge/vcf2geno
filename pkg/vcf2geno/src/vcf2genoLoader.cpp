@@ -60,7 +60,7 @@ SEXP readVCF2Matrix(VCFExtractor* vin) {
     posString += r.getPosStr();
     posVec.push_back(posString);
 
-    for (int i = 0; i < people.size(); i++) {
+    for (size_t i = 0; i < people.size(); i++) {
       indv = people[i];
       int g = indv->justGet(0).getGenotype();
       //fprintf(stdout, "\t%d", g);
@@ -133,12 +133,14 @@ SEXP impl_readVCFToMatrixByRange(SEXP arg_fileName, SEXP arg_range, SEXP arg_ann
 
   if (FLAG_fileName.size() == 0) {
     error("Please provide VCF file name");
+    return ans;
   }
   if (FLAG_range.size() == 0) {
     error("Please provide a given range, e.g. '1:100-200'");
+    return ans;
   }
 
-  //fprintf(stdout, "range = %s\n", range.c_str());
+  // REprintf("range = %s\n", FLAG_range.c_str());
   VCFExtractor vin(FLAG_fileName.c_str());
   vin.setRangeList(FLAG_range.c_str());
 
@@ -256,7 +258,7 @@ SEXP readVCF2List(VCFInputFile* vin,
   // std::vector<int> gqVec;
 
   std::map<std::string, std::vector<std::string> > indvMap;
-  int nRow; // # of positions that will be outputed
+  int nRow = 0; // # of positions that will be outputed
 
   // print header
   std::vector<std::string>& names = idVec;
@@ -276,9 +278,9 @@ SEXP readVCF2List(VCFInputFile* vin,
       bool hasVariant = false;
       int geno;
       int GTidx = r.getFormatIndex("GT");
-      for (int i = 0; i < people.size() ;i ++) {
+      for (size_t i = 0; i < people.size() ;i ++) {
         indv = people[i];
-        geno = indv->justGet(0).getGenotype();
+        geno = indv->justGet(GTidx).getGenotype();
         if (geno != 0 && geno != MISSING_GENOTYPE)
           hasVariant = true;
       }
@@ -332,7 +334,7 @@ SEXP readVCF2List(VCFInputFile* vin,
     // Rprintf("Done add info\n");
 
     // store indv values
-    for (int i = 0; i < people.size(); i++) {
+    for (size_t i = 0; i < people.size(); i++) {
       indv = people[i];
 
       for (std::vector<std::string>::const_iterator it = FLAG_indvTag.begin(); it != FLAG_indvTag.end(); ++it) {
@@ -353,8 +355,8 @@ SEXP readVCF2List(VCFInputFile* vin,
     }
     // Rprintf("Done add indv\n");
   }; // end while
-
-  //  REprintf("posVec = %zu, idVec = %zu, genoVec = %zu\n", posVec.size(), idVec.size(), genoVec.size());
+//   Rprintf("indvMap.size() = %zu\n", indvMap.size());
+  // REprintf("posVec = %zu, idVec = %zu, genoVec = %zu\n", posVec.size(), idVec.size(), genoVec.size());
 
   // pass value back to R (see Manual Chapter 5)
   std::vector<std::string> listNames;
@@ -395,7 +397,6 @@ SEXP readVCF2List(VCFInputFile* vin,
     numAllocated += storeResult(format, ret, retListIdx++);
     listNames.push_back("FORMAT");
   }
-
   // pass info values to R
   for ( std::map<std::string, std::vector<std::string> >::iterator it = infoMap.begin();
         it != infoMap.end();
@@ -403,20 +404,25 @@ SEXP readVCF2List(VCFInputFile* vin,
     numAllocated += storeResult(it->first, it->second, ret, retListIdx++);
     listNames.push_back(it->first);
   }
+  // pass indv tags to R
+  // Rprintf("pass idnv tags\n");
   for ( std::map<std::string, std::vector<std::string> >::iterator it = indvMap.begin();
         it != indvMap.end();
         ++it) {
 
+    dump(it->second);
     numAllocated += storeResult(it->first, it->second, ret, retListIdx);
+    // Rprintf("results done\n");
     // NOTE: R internally store values into matrix by column first!
     // thus the matrix is people by marker
     numAllocated += setDim(idVec.size(), nRow, ret, retListIdx);
     retListIdx ++;
     listNames.push_back(it->first);
   }
+  // Rprintf("pass idnv tags done.\n");
 
   // store sample ids
-  //Rprintf("set sample id");
+  // Rprintf("set sample id");
   listNames.push_back("sampleId");
   numAllocated += storeResult(idVec, ret, retListIdx++);
 
@@ -468,7 +474,6 @@ SEXP impl_readVCFToListByRange(SEXP arg_fileName, SEXP arg_range, SEXP arg_annoT
   if (FLAG_annoType.size()) {
     vin.setAnnoType(FLAG_annoType.c_str());
   }
-
   return readVCF2List(&vin, FLAG_vcfColumn, FLAG_infoTag, FLAG_indvTag);
 }
 
@@ -530,7 +535,7 @@ SEXP impl_readVCFToListByGene(SEXP arg_fileName, SEXP arg_geneFile, SEXP arg_gen
   }
 
   return readVCF2List(&vin, FLAG_vcfColumn, FLAG_infoTag, FLAG_indvTag);
-}; // end readVCF2List
+} // end readVCF2List
 
 /**
  * @param out will be a concatenated @param in separated by @param sep
@@ -626,7 +631,7 @@ SEXP impl_rvMetaReadData(SEXP arg_pvalFile, SEXP arg_covFile, SEXP arg_gene) {
       if (FLAG_gene.count(gene) == 0) continue;
 
       stringNaturalTokenize(fd[COV_FILE_POS_COL], ',', &pos);
-      for (int i = 0; i < pos.size(); i++){
+      for (size_t i = 0; i < pos.size(); i++){
         // sprintf(buf, "%s:%s", fd[0].c_str(), pos[i].c_str());
         buf = fd[COV_FILE_CHROM_COL];
         buf += ':';
@@ -898,11 +903,11 @@ SEXP impl_rvMetaReadData(SEXP arg_pvalFile, SEXP arg_covFile, SEXP arg_gene) {
       // Rprintf("pos: %s\n", fd[COV_FILE_COV_COL].c_str());
       stringNaturalTokenize(fd[COV_FILE_COV_COL], ',', &pos); /// temporary use variable pos to store cov
       cov.resize(pos.size());
-      for (int i = 0; i < pos.size(); ++i){
+      for (size_t i = 0; i < pos.size(); ++i){
         cov[i] = atof(pos[i]);
       }
       stringNaturalTokenize(fd[COV_FILE_POS_COL], ',', &pos);
-      for (int i = 0; i < pos.size(); ++i) {
+      for (size_t i = 0; i < pos.size(); ++i) {
         pos[i] = chr + ":" + pos[i];
       };
 
@@ -912,8 +917,8 @@ SEXP impl_rvMetaReadData(SEXP arg_pvalFile, SEXP arg_covFile, SEXP arg_gene) {
       u = VECTOR_ELT(ret, geneIndex[g]);
       v = VECTOR_ELT(u, RET_COV_INDEX);  // cov is the 6th element in the list
       // Rprintf("Gene [%s] has %d locations \n", g.c_str(), covLen);
-      for (int i = 0; i < pos.size(); i++) {
-        for (int j = i; j < pos.size(); j++) {
+      for (size_t i = 0; i < pos.size(); i++) {
+        for (size_t j = i; j < pos.size(); j++) {
           std::string& pi = pos[i];
           std::string& pj = pos[j];
           int posi = geneLocationMap[g][pi];
@@ -1168,7 +1173,7 @@ SEXP impl_readScoreByRange(SEXP arg_scoreFile, SEXP arg_range) {
         REprintf("skip insufficient fields at line %d.\n", lineNo);
         continue;
       }
-      if (fieldLen != fd.size()) {
+      if (fieldLen != (int)fd.size()) {
         REprintf("Inconsistent field length at line %d.\n", lineNo);
         return ret;
       }
