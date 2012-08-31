@@ -1,6 +1,8 @@
 PKG_CFLAGS=-I. @CFLAGS@ -DNDEBUG 
 PKG_CXXFLAGS= -I. @CXXFLAGS@ -DNDEBUG
-PKG_LIBS= -lz -lm @LIB_BZIP2@ @LIB_PCRE@
+PKG_LIBS= -lz -lm @LIB_BZIP2@
+
+## no need to use: @LIB_PCRE@
 
 ##-lbz2 -lpcre -lpcreposix
 

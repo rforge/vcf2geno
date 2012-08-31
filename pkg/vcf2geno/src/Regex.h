@@ -20,8 +20,8 @@
 // We use PCRE here, use 'man pcreposix' for more information
 // accordig to http://lh3lh3.users.sourceforge.net/reb.shtml
 // PCRE-posix is fast
-//#include <regex.h>
-#include <pcreposix.h>
+#include <regex.h>
+// #include <pcreposix.h> --> this header is only for PCRE
 #include <R.h>
 
 class Regex {

@@ -24,17 +24,17 @@ AC_CHECK_LIB([bz2], [BZ2_bzDecompressInit], [
   ]) 
 ])
 
-LIB_PCRE=""
-AC_CHECK_LIB([pcre], [regcomp], [
-  AC_CHECK_HEADER([pcreposix.h], [
-    HAS_PCRE=1
+dnl LIB_PCRE=""
+AC_CHECK_LIB([c], [regcomp], [
+  AC_CHECK_HEADER([regex.h], [
+    HAS_PCREPOSIX=1
     AC_DEFINE([HAS_PCREPOSIX], [1], [Define to 1 if you have PCRE library])
-    LIB_PCRE="-lpcre -lpcreposix"
+    dnl LIB_PCREPOSIX="-lpcre -lpcreposix"
   ])
 ])
 
 AC_SUBST(LIB_BZIP2)
-AC_SUBST(LIB_PCRE)
+dnl AC_SUBST(LIB_PCRE)
 
 AC_CONFIG_FILES([src/Makevars])
 AC_OUTPUT
