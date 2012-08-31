@@ -5,18 +5,13 @@
 
 #include <string>
 
-// for some strange reason
-// MacOSX gcc 4.2 will messes up pcreposix.h and regex.h
-// You will notice REG_NOMATCH has different definitions.
-// Then the compile program will crash by a consecutive run of regexec()
-#ifdef __APPLE__
-#undef HAS_PCREPOSIX
-#endif
-#ifdef __MACH__
-#undef HAS_PCREPOSIX
+#ifdef HAVE_REG_STARTEND
+// e.g. in Solaris, it doesnot implement REG_STARTEND,
+// we have to skip using regex related functions in lib
+#undef HAVE_POSIX_REGEX
 #endif
 
-#ifdef HAS_PCREPOSIX
+#ifdef HAVE_POSIX_REGEX
 // We use PCRE here, use 'man pcreposix' for more information
 // accordig to http://lh3lh3.users.sourceforge.net/reb.shtml
 // PCRE-posix is fast
