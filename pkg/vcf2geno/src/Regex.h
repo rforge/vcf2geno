@@ -5,7 +5,7 @@
 
 #include <string>
 
-#ifdef HAVE_REG_STARTEND
+#ifndef HAVE_REG_STARTEND
 // e.g. in Solaris, it doesnot implement REG_STARTEND,
 // we have to skip using regex related functions in lib
 #undef HAVE_POSIX_REGEX
